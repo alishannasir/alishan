@@ -58,6 +58,8 @@ export default function Projects() {
                     <img
                       src={p.image}
                       alt=""
+                      loading="lazy"
+                      decoding="async"
                       className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
                     />
                   </span>

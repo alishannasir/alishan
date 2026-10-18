@@ -77,6 +77,7 @@ export default function ProjectDetail() {
               <img
                 src={project.image}
                 alt={`${project.title} screenshot`}
+                decoding="async"
                 className="block w-full object-cover object-top"
               />
             </div>
@@ -90,6 +91,8 @@ export default function ProjectDetail() {
                     <img
                       src={src}
                       alt={`${project.title} screenshot ${i + 2}`}
+                      loading="lazy"
+                      decoding="async"
                       className="block w-full object-cover object-top"
                     />
                   </div>

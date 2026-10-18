@@ -86,6 +86,7 @@ export default function Contact() {
                   alt="Portrait of Alishan"
                   className="aspect-[4/5] w-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
                   loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute bottom-3 left-3 rounded-full border border-black/10 bg-white/90 px-4 py-1.5 text-[13px] text-black backdrop-blur-sm">
                   Alishan ✳︎ Full-stack developer
