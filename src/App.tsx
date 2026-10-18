@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar";
 import ScrollToTop from "./components/ScrollToTop";
+import CursorGlow from "./components/CursorGlow";
 import Home from "./pages/Home";
 
 // Only Home is in the first bundle; other pages load on navigation.
@@ -30,6 +31,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <CursorGlow />
       <Navbar />
       <Suspense fallback={null}>
         <AnimatedRoutes />
