@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { EYES } from "../data/eyes";
 
 // Frames extracted from the original clip (every 2nd frame, 2400px wide WebP).
 // Scrubbing a <video> by currentTime forces a decoder seek per mouse move,
@@ -23,6 +24,8 @@ export default function BackgroundVideo() {
     let target = 0; // where the pointer wants to be, in frames
     let current = 0; // eased position actually shown
     let drawn = -1;
+    let lid = 0; // 0 = eyes open, 1 = shut
+    let blinkTimer = 0;
     let raf = 0;
     let prevX: number | null = null;
     let disposed = false;
@@ -50,6 +53,35 @@ export default function BackgroundVideo() {
       const ox = (cw - w) * OBJECT_POSITION_X;
       const oy = (ch - h) / 2;
       ctx.drawImage(hit.img, ox, oy, w, h);
+      if (lid > 0.01) drawLids(hit.i, ox, oy, w, h);
+    };
+
+    // The eyes are baked into the frames, so a blink paints the screen colour
+    // over each eye and then a vertically squashed eye on top.
+    const drawLids = (i: number, ox: number, oy: number, w: number, h: number) => {
+      const eyes = EYES[i];
+      if (!eyes) return;
+      for (const [cx, cy, rx, ry, br, bg, bb, er, eg, eb] of eyes) {
+        ctx.save();
+        ctx.translate(ox + cx * w, oy + cy * h);
+        ctx.scale(rx * w, ry * h);
+        const cover = ctx.createRadialGradient(0, 0, 0, 0, 0, 1.5);
+        cover.addColorStop(0.85, `rgb(${br},${bg},${bb})`);
+        cover.addColorStop(1, `rgba(${br},${bg},${bb},0)`);
+        ctx.fillStyle = cover;
+        ctx.beginPath();
+        ctx.arc(0, 0, 1.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.scale(1, Math.max(1 - lid, 0.06));
+        const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
+        glow.addColorStop(0.7, `rgb(${er},${eg},${eb})`);
+        glow.addColorStop(1, `rgba(${er},${eg},${eb},0)`);
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(0, 0, 1, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
     };
 
     const tick = () => {
@@ -107,6 +139,29 @@ export default function BackgroundVideo() {
       for (let i = 1; i < FRAME_COUNT; i++) load(i);
     });
 
+    const BLINK_MS = 220;
+    const blink = () => {
+      const start = performance.now();
+      const step = (now: number) => {
+        if (disposed) return;
+        const t = Math.min((now - start) / BLINK_MS, 1);
+        lid = Math.sin(t * Math.PI); // shut then open
+        draw(true);
+        if (t < 1) requestAnimationFrame(step);
+        else {
+          lid = 0;
+          draw(true);
+          schedule();
+        }
+      };
+      requestAnimationFrame(step);
+    };
+    const schedule = () => {
+      clearTimeout(blinkTimer);
+      blinkTimer = window.setTimeout(blink, 2500 + Math.random() * 3000);
+    };
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) schedule();
+
     resize();
     window.addEventListener("resize", resize);
     window.addEventListener("mousemove", onMouse, { passive: true });
@@ -115,6 +170,7 @@ export default function BackgroundVideo() {
 
     return () => {
       disposed = true;
+      clearTimeout(blinkTimer);
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouse);
