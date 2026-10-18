@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 const links = [
@@ -13,9 +13,20 @@ const desktopLinkClass = ({ isActive }: { isActive: boolean }) =>
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
+  const [scrolled, setScrolled] = useState(false);
+
+  // Frosted bar once content scrolls beneath it; state only flips at the threshold.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   return (
     <>
-      <header className="fixed top-0 z-10 flex w-full flex-row items-center justify-between px-5 py-4 sm:px-8 sm:py-5">
+      <header className={`fixed top-0 z-10 flex w-full flex-row items-center justify-between px-5 py-4 transition-[background-color,backdrop-filter] duration-300 sm:px-8 sm:py-5 ${
+          scrolled ? "bg-[#b9b8b6]/70 backdrop-blur-md" : ""
+        }`}>
         {/* Logo */}
         <Link to="/" className="flex flex-row items-center gap-3">
           <span
