@@ -26,6 +26,16 @@ export default function BackgroundVideo() {
     let drawn = -1;
     let lid = 0; // 0 = eyes open, 1 = shut
     let blinkTimer = 0;
+    let blinking = false;
+    let py = 0; // vertical pointer, -1..1 (target) and eased value
+    let cy = 0;
+    let lastInput = performance.now();
+    let sway = 0; // 0..1 how much idle sway is applied
+    let swayOffset = 0;
+    // Idle sway and parallax need a cursor; skip them on touch / reduced motion.
+    const ambient =
+      !window.matchMedia("(pointer: coarse)").matches &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let raf = 0;
     let prevX: number | null = null;
     let disposed = false;
@@ -42,7 +52,7 @@ export default function BackgroundVideo() {
     };
 
     const draw = (force = false) => {
-      const hit = nearest(Math.round(current));
+      const hit = nearest(Math.round(current + swayOffset));
       if (!hit || (!force && hit.i === drawn)) return;
       drawn = hit.i;
       const { width: cw, height: ch } = canvas;
@@ -84,11 +94,22 @@ export default function BackgroundVideo() {
       }
     };
 
-    const tick = () => {
+    const tick = (now = performance.now()) => {
       current += (target - current) * EASE;
       if (Math.abs(target - current) < 0.01) current = target;
+
+      if (ambient) {
+        // After a moment without input the head drifts gently, like it's breathing.
+        const idle = now - lastInput > 2500 && !document.hidden;
+        sway += ((idle ? 1 : 0) - sway) * 0.03;
+        swayOffset = Math.sin(now / 1400) * 0.9 * sway;
+        cy += (py - cy) * 0.08;
+        canvas.style.transform = `translate3d(0, ${(-cy * 6).toFixed(2)}px, 0) scale(1.02)`;
+      }
+
       draw();
-      raf = current === target ? 0 : requestAnimationFrame(tick);
+      const settled = current === target && (!ambient || (sway < 0.001 && Math.abs(py - cy) < 0.001));
+      raf = settled ? 0 : requestAnimationFrame(tick);
     };
     const kick = () => {
       if (!raf) raf = requestAnimationFrame(tick);
@@ -115,7 +136,12 @@ export default function BackgroundVideo() {
       }
       prevX = x;
     };
-    const onMouse = (e: MouseEvent) => move(e.clientX);
+    const onMouse = (e: MouseEvent) => {
+      lastInput = performance.now();
+      py = (e.clientY / window.innerHeight) * 2 - 1;
+      move(e.clientX);
+      kick();
+    };
     const onTouch = (e: TouchEvent) => move(e.touches[0].clientX);
     const onTouchEnd = () => {
       prevX = null;
@@ -141,6 +167,7 @@ export default function BackgroundVideo() {
 
     const BLINK_MS = 220;
     const blink = () => {
+      blinking = true;
       const start = performance.now();
       const step = (now: number) => {
         if (disposed) return;
@@ -150,6 +177,7 @@ export default function BackgroundVideo() {
         if (t < 1) requestAnimationFrame(step);
         else {
           lid = 0;
+          blinking = false;
           draw(true);
           schedule();
         }
@@ -162,7 +190,22 @@ export default function BackgroundVideo() {
     };
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) schedule();
 
+    // Click the model (anywhere that isn't a link or button) to make it blink.
+    const onClick = (e: MouseEvent) => {
+      if ((e.target as HTMLElement).closest("a, button, input, textarea")) return;
+      if (blinking) return;
+      clearTimeout(blinkTimer);
+      blink();
+    };
+    // Wake the idle sway loop once the pointer has been still for a while.
+    const idleCheck = ambient
+      ? window.setInterval(() => {
+          if (!raf && performance.now() - lastInput > 2500 && !document.hidden) kick();
+        }, 1000)
+      : 0;
+
     resize();
+    window.addEventListener("click", onClick);
     window.addEventListener("resize", resize);
     window.addEventListener("mousemove", onMouse, { passive: true });
     window.addEventListener("touchmove", onTouch, { passive: true });
@@ -172,6 +215,8 @@ export default function BackgroundVideo() {
       disposed = true;
       clearTimeout(blinkTimer);
       cancelAnimationFrame(raf);
+      clearInterval(idleCheck);
+      window.removeEventListener("click", onClick);
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouse);
       window.removeEventListener("touchmove", onTouch);
