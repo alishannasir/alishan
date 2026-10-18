@@ -12,7 +12,7 @@ export default function ProjectDetail() {
   if (!project) {
     return (
       <PageTransition>
-        <main className="flex min-h-screen flex-col items-center justify-center gap-6 bg-white px-5">
+        <main className="flex min-h-screen flex-col items-center justify-center gap-6 px-5">
           <p className="text-[21px] text-black">That project doesn't exist (yet).</p>
           <Pill to="/projects">Back to all projects</Pill>
         </main>
@@ -24,7 +24,7 @@ export default function ProjectDetail() {
 
   return (
     <PageTransition>
-      <main className="min-h-screen bg-white px-5 pb-24 pt-28 sm:px-8 md:px-10 md:pt-36">
+      <main className="min-h-screen px-5 pb-24 pt-28 sm:px-8 md:px-10 md:pt-36">
         <div className="mx-auto max-w-5xl">
           <Reveal>
             <Link
@@ -58,7 +58,7 @@ export default function ProjectDetail() {
           </Reveal>
 
           <Reveal delay={0.12}>
-            <p className="mt-6 max-w-2xl text-[18px] leading-relaxed text-black/70 sm:text-[21px]">
+            <p className="mt-6 max-w-2xl text-[18px] leading-relaxed text-black/80 sm:text-[21px]">
               {project.description}
             </p>
           </Reveal>
@@ -70,7 +70,7 @@ export default function ProjectDetail() {
                 <span className="h-2.5 w-2.5 rounded-full bg-black/20" />
                 <span className="h-2.5 w-2.5 rounded-full bg-black/20" />
                 <span className="h-2.5 w-2.5 rounded-full bg-black/20" />
-                <span className="ml-3 rounded-md bg-black/[0.05] px-3 py-1 text-[11px] text-black/50">
+                <span className="ml-3 rounded-md bg-black/[0.05] px-3 py-1 text-[11px] text-black/65">
                   {project.link.replace("https://", "")}
                 </span>
               </div>
@@ -104,15 +104,15 @@ export default function ProjectDetail() {
           {/* Meta */}
           <div className="mt-12 grid gap-8 border-t border-black/10 pt-8 sm:grid-cols-3">
             <Reveal>
-              <p className="text-[13px] uppercase tracking-widest text-black/40">Role</p>
+              <p className="text-[13px] uppercase tracking-widest text-black/60">Role</p>
               <p className="mt-2 text-[17px] text-black">{project.role}</p>
             </Reveal>
             <Reveal delay={0.05}>
-              <p className="text-[13px] uppercase tracking-widest text-black/40">Stack</p>
+              <p className="text-[13px] uppercase tracking-widest text-black/60">Stack</p>
               <p className="mt-2 text-[17px] text-black">{project.stack.join(", ")}</p>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="text-[13px] uppercase tracking-widest text-black/40">Year</p>
+              <p className="text-[13px] uppercase tracking-widest text-black/60">Year</p>
               <p className="mt-2 text-[17px] text-black">{project.year}</p>
             </Reveal>
           </div>
@@ -120,7 +120,7 @@ export default function ProjectDetail() {
           {/* Overview */}
           <div className="mt-16 grid gap-6 md:grid-cols-[200px_1fr] md:gap-10">
             <Reveal>
-              <p className="text-[13px] uppercase tracking-widest text-black/40">Overview</p>
+              <p className="text-[13px] uppercase tracking-widest text-black/60">Overview</p>
             </Reveal>
             <div className="space-y-6 text-[18px] leading-relaxed text-black/80 sm:text-[21px]">
               {project.overview.map((para, i) => (
@@ -134,13 +134,13 @@ export default function ProjectDetail() {
           {/* Highlights */}
           <div className="mt-16">
             <Reveal>
-              <p className="text-[13px] uppercase tracking-widest text-black/40">Highlights</p>
+              <p className="text-[13px] uppercase tracking-widest text-black/60">Highlights</p>
             </Reveal>
             <div className="mt-6">
               {project.highlights.map((h, i) => (
                 <Reveal key={h} delay={i * 0.05}>
                   <div className="flex gap-6 border-t border-black/10 py-5 text-[17px] text-black sm:text-[19px]">
-                    <span className="text-black/40">0{i + 1}</span>
+                    <span className="text-black/60">0{i + 1}</span>
                     <p>{h}</p>
                   </div>
                 </Reveal>
@@ -160,7 +160,7 @@ export default function ProjectDetail() {
           {/* Next project */}
           <Reveal>
             <Link to={`/projects/${next.slug}`} className="group mt-24 block border-t border-black/10 pt-10">
-              <p className="text-[13px] uppercase tracking-widest text-black/40">
+              <p className="text-[13px] uppercase tracking-widest text-black/60">
                 Next project ✳︎
               </p>
               <p

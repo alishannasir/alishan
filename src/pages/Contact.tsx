@@ -36,7 +36,7 @@ export default function Contact() {
 
   return (
     <PageTransition>
-      <main className="min-h-screen bg-white px-5 pb-24 pt-28 sm:px-8 md:px-10 md:pt-36">
+      <main className="min-h-screen px-5 pb-24 pt-28 sm:px-8 md:px-10 md:pt-36">
         <div className="mx-auto max-w-6xl">
           <div className="grid items-start gap-12 md:grid-cols-[1fr_320px] md:gap-16">
             {/* Intro */}
@@ -64,7 +64,7 @@ export default function Contact() {
               </Reveal>
 
               <Reveal delay={0.1}>
-                <p className="mt-8 max-w-xl text-[18px] leading-relaxed text-black/70 sm:text-[21px]">
+                <p className="mt-8 max-w-xl text-[18px] leading-relaxed text-black/80 sm:text-[21px]">
                   Have a project, a role, or just a good idea? My inbox is open. Pick whichever
                   channel feels right — they all reach the same person.
                 </p>
@@ -98,7 +98,7 @@ export default function Contact() {
           {/* Socials index */}
           <section className="mt-20" aria-label="Social links">
             <Reveal>
-              <h2 className="text-[13px] uppercase tracking-widest text-black/40">Elsewhere</h2>
+              <h2 className="text-[13px] uppercase tracking-widest text-black/60">Elsewhere</h2>
             </Reveal>
             <div className="mt-6">
               {socials.map((s, i) => {
@@ -111,7 +111,7 @@ export default function Contact() {
                       rel={external ? "noreferrer" : undefined}
                       className="group flex items-baseline gap-4 border-t border-black/10 py-7 transition-all duration-300 hover:pl-3 sm:gap-8"
                     >
-                      <span className="text-[14px] text-black/40">0{i + 1}</span>
+                      <span className="text-[14px] text-black/60">0{i + 1}</span>
                       <span
                         className="flex-1 tracking-tight text-black transition-opacity duration-300 group-hover:opacity-60"
                         style={{
@@ -122,7 +122,7 @@ export default function Contact() {
                       >
                         {s.name}
                       </span>
-                      <span className="hidden text-[15px] text-black/50 sm:block sm:text-[17px]">
+                      <span className="hidden text-[15px] text-black/65 sm:block sm:text-[17px]">
                         {s.handle}
                       </span>
                       <span className="self-center text-[24px] text-black transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-2">
@@ -137,7 +137,7 @@ export default function Contact() {
           </section>
 
           <Reveal>
-            <p className="mt-16 text-[15px] text-black/40">
+            <p className="mt-16 text-[15px] text-black/60">
               Usually replies within 24 hours ✳︎ Open to freelance & full-time ✳︎ Based on the
               internet
             </p>
