@@ -84,3 +84,18 @@ body {
   background: #ffd8de;
   color: #000;
 }
+
+/* Nav links: underline slides in from the left on hover, stays when active. */
+.link-u {
+  background: linear-gradient(currentColor, currentColor) left bottom / 0% 1px no-repeat;
+  padding-bottom: 2px;
+  transition: background-size 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-u:hover,
+.link-u.is-active {
+  background-size: 100% 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link-u { transition: none; }
+}

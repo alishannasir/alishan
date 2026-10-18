@@ -8,7 +8,7 @@ const links = [
 ];
 
 const desktopLinkClass = ({ isActive }: { isActive: boolean }) =>
-  `transition-opacity hover:opacity-60 ${isActive ? "underline underline-offset-4" : ""}`;
+  `link-u ${isActive ? "is-active" : ""}`;
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -48,7 +48,7 @@ export default function Navbar() {
         {/* Desktop CTA */}
         <Link
           to="/contact"
-          className="hidden text-[23px] text-black underline underline-offset-2 transition-opacity hover:opacity-60 md:block"
+          className="link-u is-active hidden text-[23px] text-black md:block"
         >
           Get in touch
         </Link>
