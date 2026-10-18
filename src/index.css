@@ -78,3 +78,9 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+/* ---- Small, quiet interface effects ---- */
+
+::selection {
+  background: #ffd8de;
+  color: #000;
+}
