@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import StarToy from "./StarToy";
 
 const links = [
   { label: "Home", to: "/" },
@@ -12,7 +13,6 @@ const desktopLinkClass = ({ isActive }: { isActive: boolean }) =>
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-
   const [scrolled, setScrolled] = useState(false);
 
   // Frosted bar once content scrolls beneath it; state only flips at the threshold.
@@ -22,27 +22,23 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
   return (
     <>
       <header className={`fixed top-0 z-10 flex w-full flex-row items-center justify-between px-5 py-4 transition-[background-color,backdrop-filter] duration-300 sm:px-8 sm:py-5 ${
           scrolled ? "bg-[#b9b8b6]/70 backdrop-blur-md" : ""
         }`}>
         {/* Logo */}
-        <Link to="/" className="flex flex-row items-center gap-3">
-          <span
+        <div className="flex flex-row items-center gap-3">
+          <Link
+            to="/"
             className="text-[21px] tracking-tight text-black sm:text-[26px]"
             style={{ fontFamily: "var(--font-heading)" }}
           >
             Alishan®
-          </span>
-          <span
-            className="animate-spin-slow inline-block select-none text-[25px] text-black sm:text-[30px]"
-            style={{ letterSpacing: "-0.02em" }}
-            aria-hidden
-          >
-            ✳︎
-          </span>
-        </Link>
+          </Link>
+          <StarToy />
+        </div>
 
         {/* Desktop nav links */}
         <nav className="hidden flex-row text-[23px] text-black md:flex">
