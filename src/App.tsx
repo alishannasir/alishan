@@ -1,12 +1,15 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar";
 import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
-import About from "./pages/About";
-import Projects from "./pages/Projects";
-import ProjectDetail from "./pages/ProjectDetail";
-import Contact from "./pages/Contact";
+
+// Only Home is in the first bundle; other pages load on navigation.
+const About = lazy(() => import("./pages/About"));
+const Projects = lazy(() => import("./pages/Projects"));
+const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
+const Contact = lazy(() => import("./pages/Contact"));
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -28,7 +31,9 @@ export default function App() {
     <BrowserRouter>
       <ScrollToTop />
       <Navbar />
-      <AnimatedRoutes />
+      <Suspense fallback={null}>
+        <AnimatedRoutes />
+      </Suspense>
     </BrowserRouter>
   );
 }
