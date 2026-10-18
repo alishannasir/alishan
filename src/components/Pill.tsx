@@ -10,7 +10,7 @@ interface Props {
 }
 
 const base =
-  "mx-[0.2em] mb-[0.4em] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border px-4 py-[0.3em] text-[13px] transition-colors duration-200 sm:gap-3 sm:px-5 sm:text-[15px]";
+  "mx-[0.2em] mb-[0.4em] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border px-4 py-[0.3em] text-[13px] cursor-pointer transition-[color,background-color,transform] duration-200 hover:-translate-y-px active:translate-y-0 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-[#b9b8b6] sm:gap-3 sm:px-5 sm:text-[15px]";
 
 const styles: Record<NonNullable<Props["variant"]>, string> = {
   light: `${base} border-black/10 bg-white text-black hover:bg-black hover:text-white`,

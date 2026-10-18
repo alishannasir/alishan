@@ -36,7 +36,7 @@ export const projects: Project[] = [
       "Fully responsive from mobile to wide desktop",
     ],
     link: "https://alishan.dev",
-    image: "/images/one.png",
+    image: "/images/one.webp",
   },
   {
     slug: "pixelplay",
@@ -59,7 +59,7 @@ export const projects: Project[] = [
       "Dark UI with responsive card grid and detail page routing",
     ],
     link: "https://pixelplay.app",
-    image: "/images/two.png",
+    image: "/images/two.webp",
   },
   {
     slug: "gilgit-trails",
@@ -82,8 +82,8 @@ export const projects: Project[] = [
       "Full-stack architecture with API-backed content and responsive UI",
     ],
     link: "https://gilgit-trails.com",
-    image: "/images/three.png",
-    images: ["/images/three.png", "/images/four.png"],
+    image: "/images/three.webp",
+    images: ["/images/three.webp", "/images/four.webp"],
   },
   {
     slug: "gilgit-app",
@@ -106,7 +106,7 @@ export const projects: Project[] = [
       "Detail pages with image galleries and structured listing metadata",
     ],
     link: "https://gilgitapp.com",
-    image: "/images/five.png",
+    image: "/images/five.webp",
   },
   {
     slug: "fieldpulse",
@@ -129,6 +129,6 @@ export const projects: Project[] = [
       "Responsive marketing layout with reusable content blocks",
     ],
     link: "https://fieldpulse.com",
-    image: "/images/six.png",
+    image: "/images/six.webp",
   },
 ];

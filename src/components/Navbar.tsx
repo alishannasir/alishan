@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import StarToy from "./StarToy";
 
 const links = [
   { label: "Home", to: "/" },
@@ -8,30 +9,36 @@ const links = [
 ];
 
 const desktopLinkClass = ({ isActive }: { isActive: boolean }) =>
-  `transition-opacity hover:opacity-60 ${isActive ? "underline underline-offset-4" : ""}`;
+  `link-u ${isActive ? "is-active" : ""}`;
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  // Frosted bar once content scrolls beneath it; state only flips at the threshold.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <>
-      <header className="fixed top-0 z-10 flex w-full flex-row items-center justify-between px-5 py-4 sm:px-8 sm:py-5">
+      <header className={`fixed top-0 z-10 flex w-full flex-row items-center justify-between px-5 py-4 transition-[background-color,backdrop-filter] duration-300 sm:px-8 sm:py-5 ${
+          scrolled ? "bg-[#b9b8b6]/70 backdrop-blur-md" : ""
+        }`}>
         {/* Logo */}
-        <Link to="/" className="flex flex-row items-center gap-3">
-          <span
+        <div className="flex flex-row items-center gap-3">
+          <Link
+            to="/"
             className="text-[21px] tracking-tight text-black sm:text-[26px]"
             style={{ fontFamily: "var(--font-heading)" }}
           >
             Alishan®
-          </span>
-          <span
-            className="animate-spin-slow inline-block select-none text-[25px] text-black sm:text-[30px]"
-            style={{ letterSpacing: "-0.02em" }}
-            aria-hidden
-          >
-            ✳︎
-          </span>
-        </Link>
+          </Link>
+          <StarToy />
+        </div>
 
         {/* Desktop nav links */}
         <nav className="hidden flex-row text-[23px] text-black md:flex">
@@ -48,7 +55,7 @@ export default function Navbar() {
         {/* Desktop CTA */}
         <Link
           to="/contact"
-          className="hidden text-[23px] text-black underline underline-offset-2 transition-opacity hover:opacity-60 md:block"
+          className="link-u is-active hidden text-[23px] text-black md:block"
         >
           Get in touch
         </Link>
@@ -80,7 +87,7 @@ export default function Navbar() {
 
       {/* Mobile overlay */}
       <div
-        className={`fixed inset-0 z-[9] flex flex-col items-start justify-center gap-8 bg-white/95 px-8 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 z-[9] flex flex-col items-start justify-center gap-8 bg-[#b9b8b6]/95 px-8 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
           open ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       >
