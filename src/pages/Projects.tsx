@@ -6,7 +6,7 @@ import { projects } from "../data/projects";
 export default function Projects() {
   return (
     <PageTransition>
-      <main className="min-h-screen bg-white px-5 pb-24 pt-28 sm:px-8 md:px-10 md:pt-36">
+      <main className="min-h-screen px-5 pb-24 pt-28 sm:px-8 md:px-10 md:pt-36">
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <p
@@ -27,7 +27,7 @@ export default function Projects() {
               }}
             >
               Projects{" "}
-              <sup className="align-super text-[0.3em] text-black/40">({projects.length})</sup>
+              <sup className="align-super text-[0.3em] text-black/60">({projects.length})</sup>
             </h1>
           </Reveal>
 
@@ -38,7 +38,7 @@ export default function Projects() {
                   to={`/projects/${p.slug}`}
                   className="group flex items-baseline gap-4 border-t border-black/10 py-8 transition-all duration-300 hover:pl-3 sm:gap-8"
                 >
-                  <span className="text-[14px] text-black/40">0{i + 1}</span>
+                  <span className="text-[14px] text-black/60">0{i + 1}</span>
                   <div className="flex-1">
                     <h2
                       className="tracking-tight text-black transition-opacity duration-300 group-hover:opacity-60"
@@ -50,7 +50,7 @@ export default function Projects() {
                     >
                       {p.title}
                     </h2>
-                    <p className="mt-2 text-[15px] text-black/50 sm:text-[17px]">
+                    <p className="mt-2 text-[15px] text-black/65 sm:text-[17px]">
                       {p.category} — {p.year}
                     </p>
                   </div>
@@ -58,6 +58,8 @@ export default function Projects() {
                     <img
                       src={p.image}
                       alt=""
+                      loading="lazy"
+                      decoding="async"
                       className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
                     />
                   </span>
