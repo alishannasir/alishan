@@ -6,6 +6,7 @@ const links = [
   { label: "Home", to: "/" },
   { label: "About Me", to: "/about" },
   { label: "Projects", to: "/projects" },
+  { label: "Work", to: "/work" },
 ];
 
 const desktopLinkClass = ({ isActive }: { isActive: boolean }) =>
