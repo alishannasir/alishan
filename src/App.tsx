@@ -10,6 +10,8 @@ import Home from "./pages/Home";
 const About = lazy(() => import("./pages/About"));
 const Projects = lazy(() => import("./pages/Projects"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
+const Work = lazy(() => import("./pages/Work"));
+const WorkDetail = lazy(() => import("./pages/WorkDetail"));
 const Contact = lazy(() => import("./pages/Contact"));
 
 function AnimatedRoutes() {
@@ -21,6 +23,8 @@ function AnimatedRoutes() {
         <Route path="/about" element={<About />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/projects/:slug" element={<ProjectDetail />} />
+        <Route path="/work" element={<Work />} />
+        <Route path="/work/:slug" element={<WorkDetail />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
     </AnimatePresence>
